@@ -12,7 +12,7 @@ var rmRestModule = angular.module('RMRestClient', [
 // The save/POST method has been defined for the coming nodejs implementation
 rmRestModule.factory('Person', ['$resource',
 	function($resource){
-	    return $resource('data/person/:id.json', {}, {
+	    return $resource('http://localhost:8000/api/person/:id', {}, {
 			save: {
 				method:'POST', 
 					params:{
@@ -20,12 +20,6 @@ rmRestModule.factory('Person', ['$resource',
 						lastname : '@lastName',
 						description : '@description'
 				    }, isArray : false
-			},
-			query: {
-				method:'GET', 
-				params:{
-					id : 'people'
-				}, isArray:true
 			}
 		});
 }]);
