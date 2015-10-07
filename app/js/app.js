@@ -7,21 +7,21 @@ var rmRestModule = angular.module('RMRestClient', [
 ]);
 
 /* Services */
-
-// the GET methods for resources and the collection are defined as get(), and query() in the $resource class definition
-// The save/POST method has been defined for the coming nodejs implementation
+//all methods but update(put) are default
 rmRestModule.factory('Person', ['$resource',
 	function($resource){
-	    return $resource('http://localhost:8000/api/person/:id', {}, {
-			save: {
-				method:'POST', 
-					params:{
-						firstname : '@firstName',
-						lastname : '@lastName',
-						description : '@description'
-				    }, isArray : false
-			}
-		});
+	    return $resource('http://localhost:8000/api/person/:id',
+	    	{
+				id : '@id',
+				firstname : '@firstname',
+				lastname : '@lastname',
+				description : '@description'
+	    	}, 
+	    	{
+				update: {
+					method:'PUT', params:{}, isArray : false
+				}
+			});
 }]);
 
 
@@ -45,17 +45,22 @@ rmRestModule.config(['$routeProvider', function($routeProvider) {
 /* Controllers */
 
 rmRestModule.controller('PersonListControl', ['$scope', 'Person', function($scope, Person) {
-	$scope.pForm = {
-		firstname : '',
-		lastname : '',
-	};
+	$scope.newPerson = new Person();
 
 	$scope.people = Person.query();
+
+	$scope.save = function () {
+		$scope.newPerson.$save();
+	};
 
 }]);
 
 rmRestModule.controller('PersonCtrl', ['$scope', '$routeParams', 'Person', function($scope, $routeParams, Person) {
 	$scope.person = Person.get({id : $routeParams.id});
+
+	$scope.update = function () {
+		$scope.person.$update();
+	};
 
 }]);
 

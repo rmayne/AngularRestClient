@@ -1,4 +1,19 @@
 <div class="row">
-	<h3>{{person.lastname}}, {{person.firstname}}</h3>
-	<div class="well">{{person.description}}</div>
+	<form>
+		<div class="form-group">
+			<label>First Name</label>
+			<input type="text" name="firstName" ng-model="person.firstname" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>Last Name</label>
+			<input type="text" name="lastName" ng-model="person.lastname" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>Description</label>
+			<textarea name="description" ng-model="person.description" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<input type="button" value="Update" ng-click="update()" >
+		</div>
+	</form>
 </div>
